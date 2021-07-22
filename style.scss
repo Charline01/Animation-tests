@@ -1,27 +1,509 @@
+$cd-btn: #0e5caa;
+$cd-txt: #c2bcf5;
+$cd-box: #bd15de;
+$cd-txt--invalid: #fff;
+$cd-danger: #c71b63;
+$cd-btn-start: rgba(1, 28, 55, 0);
+$cd-btn-end: rgba(1, 28, 55, 1);
+$clr-btn: #15DEA5;
+
 body{
+    background-color: rgb(228, 247, 242);
     font-family: 'Montserrat';
-    text-align: center;
+}
+
+
+$cd-navy: #0E397F;
+$cd-mint: #15dea5;
+
+
+$cd-bars: #15DEA5;
+$cd-bars-inv: #0E397F;
+$size: 3vh;
+$anim-dur: 1000ms;
+$anim-delay: $anim-dur / 5;
+
+.load {
+    width: $size*10;
+    height: $size*7.5;
+    display: flex;
+    justify-content: space-evenly;
+    &__bar {
+        background-color: #15DEA5;
+        height: 100%;
+        width: $size;
+        animation: bars $anim-dur backwards infinite ease-in-out alternate;
+       
+        @for $i from 1 through 5 {
+            &--#{$i} {
+                animation-delay: $anim-delay * $i;
+            }
+        }
+        &--#{$i}-inv {
+            animation-delay: $anim-delay * $i;
+            animation-direction: alternate-reverse;
+            background-color: $cd-bars-inv;
+        }
+
+    }
+}
+
+
+@keyframes bars {
+    0% {
+        transform: scaleY(0.5);
+        
+    }
+    100% {
+        transform: scaleY(1.0);
+    }
+}
+
+
+.spin {
+    background-color: #15DEA5;
+    width: 30vh;
+    height: 30vh;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@mixin menu__open-accent($dur, $delay) {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #f4f9f8;
+    transform-origin: top left;
+    animation: menu $dur $delay both;
+    z-index: -1;
+}
+
+.menu {
+    min-width: 33vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    background:$cd-mint;
+    overflow: hidden;
+    transform-origin: top left;
+    position: relative;
+    animation: menu 661ms both;
+    z-index: -10;
+    &__open-accent--1{
+        @include menu__open-accent(450ms, 275ms);
+    }
+    &__open-accent--2 {
+            @include menu__open-accent(450ms, 150ms);
+            background: $cd-navy;
+            z-index: -2;
+    }
+    &__item {
+        padding: .75rem;
+        margin: .25rem;
+        background: #fff;
+        animation: menu__item 810ms cubic-bezier(.1,.9,.1,1) both;
+        position: relative;
+        &-accent {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: .25rem;
+            background-color: $cd-mint;
+            animation: menu__accent 400ms both;
+            &--active {
+                background-color: $cd-navy
+            }
+        }
+        &--1 {
+            animation-delay: 475ms;
+            > div {
+                animation-delay: 712ms;
+            }
+        }
+        &--2 {
+            animation-delay: 546ms;
+            > div {
+                animation-delay: 805ms;
+            }
+        }
+        &--3 {
+            animation-delay: 632ms;
+            > div {
+                animation-delay: 914ms;
+            }
+        }
+    }
+}
+
+@keyframes menu {
+    0% {
+        transform: scale(0,.07);
+    }
+    33% {
+        transform: scale(1,.07);
+        animation-timing-function: cubic-bezier(.73,.01,.2,.99)
+    }
 
 }
 
-.btn{
-    padding: 10px;
-    background-color: aquamarine;
-    width: 100px;
+@keyframes menu__item {
+    0% {
+        transform: translateX(-110%);
+    }
+}
+
+@keyframes menu__accent {
+    0% {
+        transform: scaleY(0);
+    }
+}
+
+.container{
+    text-align: center;
+    padding: 50px;
+}
+
+.container-food{
+    text-align: center;
     margin: auto;
-    margin-bottom: 50px;
-    border-radius: 25px;
+padding-top: 250px;
+}
+
+.loader{
+margin: 100px auto;
+padding: 20px;
+font-size: 50px;
+}
+
+.fa-drumstick-bite{
+    color: rgb(252, 0, 118);
+    font-size:30px;
+}
+
+.fa-cheese{
+    color: rgb(255, 0, 242);
+    font-size:30px;
+}
+
+.fa-apple-alt{
+    color: rgb(183, 0, 255);
+    font-size:30px;
+}
+
+
+
+
+//animation load spinner un, deux, trois//
+
+$loader-dot-size: 25px;
+$loader-dot-margin: 35px;
+
+
+
+.loader-dot {
+	width: $loader-dot-size;
+	height: $loader-dot-size;
+	border-radius: 50%;
+	display: inline-block;
+	margin-left: $loader-dot-margin;
+	animation: 1s load-spinner infinite;
+	animation-timing-function: ease-in-out;
+
+
+	&--one {
+		animation-delay: 0.4s;
+	}
+
+	&--two {
+		animation-delay: 0.6s;
+	}
+
+	&--three {
+		animation-delay: 0.8s;
+	}
+}
+
+@keyframes load-spinner {
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+// fin animation 1//
+
+
+//animation load spinner manger//
+
+.loader {
+	animation: rotate 2s linear infinite normal;
+	height: 1rem;
+	position: relative;
+	width: 1rem;
+	
+	&__ball {
+		animation: move1 1s ease-in-out infinite alternate;
+		
+		border-radius: 50%;
+		height: 100%;
+		position: absolute;
+		width: 100%;
+		
+		&:nth-of-type(2) {
+			animation-name: move2;
+		}
+		
+		&:nth-of-type(3) {
+			animation-name: move3;
+		}
+	}
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes move1 {
+	0%, 5% {
+		transform: translate(0, 0);
+	}
+	to {
+		transform: translate(0, -100%);
+	}
+}
+
+@keyframes move2 {
+	0%, 5% {
+		transform: translate(0, 0);
+	}
+	to {
+		transform: translate(100%, 100%);
+	}
+}
+
+@keyframes move3 {
+	0%, 15% {
+		transform: translate(0);
+	}
+	to {
+		transform: translate(-100%, 100%);
+	}
+}
+
+// fin animation manger//
+
+
+
+
+.btnsurvol{
+    padding: 25px;
+    background: $clr-btn;
+    border:none;
+    font-family: 'Montserrat';
+    color: white;
     cursor: pointer;
-    &:active {
-            & > .progress__bar {
-                animation-duration: 1000ms;
+    
+    position: relative;
+    z-index: 1;
+    &:hover {
+        &::after {
+            opacity: 1;
         }
     }
- }
 
- @keyframes progress-bar{
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: darken($clr-btn, 5);
+        opacity: 0;
+        z-index: -1;
+        transition: opacity 250ms;
+    }
+}
+
+
+  $cd-on: #59cdc3;
+  $cd-off: #f88292;
+  $persp: 500px;
+  $btn-width: 90px;
+  $btn-height: 90px;
+  
+  @mixin facet {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .button3d {
+    margin:90px auto;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+    
+  .btn3d {
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      position: relative;
+      width: $btn-width;
+      height: $btn-height;
+      perspective: $persp;
+      &:active {
+          & > .btn__flip {
+              transform: rotateX(-90deg);
+          }
+      }
+      .btn__flip {
+          @include facet; 
+          transform-style: preserve-3d;
+          transform-origin: center bottom ($btn-height/2);
+          transition: transform 500ms cubic-bezier(.7,.01,.23,.99);
+          transform: rotateX(0deg);
+          .btn__flip--off {
+              transform: rotateX(0deg) translateZ($btn-height/2);
+              @include facet;
+              background: $cd-off;
+          }
+          .btn__flip--on {
+              transform: rotateX(90deg) translateZ($btn-height/2);
+              @include facet;
+              background: $cd-on;
+          }
+      }
+  }
+  }
+
+
+
+// Poignée du sabre laser
+.lightsaber .hilt {
+	cursor: pointer;
+	width: 15px;
+	height: 50px;
+	border-bottom: solid 4px rgb(243, 142, 164);
+	border-top: solid 5px rgb(243, 133, 160);
+	border-radius: 5px;
+	z-index: 1;
+	background: rgb(245, 125, 125);
+	background: linear-gradient(
+		to right,
+		rgb(245, 213, 213) 0%,
+		rgb(243, 208, 208) 50%,
+		rgb(248, 197, 197) 51%,
+		rgb(247, 177, 177) 100%
+	);
+
+  // Bouton de la poignée
+	& > .switch {
+		background: #ffffff;
+		width: 3px;
+		height: 10px;
+		position: absolute;
+		bottom: 25px;
+		left: 13px;
+		border-radius: 10px;
+	}
+
+  //Au clic sur la poignée, le laser prend la taille voulue en hauteur
+	&:active + .plasma {
+		transform: scale(1, 1);
+	}
+
+	&:active > .switch {
+		transform: scale(0.7, 1);
+	}
+}
+
+.lightsaber .plasma {
+	transition: transform 300ms;
+	border-radius: 12px 12px 0 0;
+	position: absolute;
+	bottom: 45px;
+	left: 2px;
+	width: 10px;
+	display: block;
+	transform: scale(1, 0);
+	height: 250px;
+	transform-origin: bottom center;
+  z-index: -1;
+	filter: blur(1px);
+}
+
+.vader {
+	background: linear-gradient(
+		to right,
+		rgb(229, 17, 194) 0%,
+		rgba(254, 254, 254, 1) 30%,
+		rgba(254, 254, 254, 1) 47%,
+		rgba(254, 254, 254, 1) 71%,
+        #e511c2 0%,
+	);
+	box-shadow: 0 0 10px #e511c2;
+}
+
+
+.lightsaber-example {
+	display: flex;
+  justify-content: center;
+	padding-top: 325px;
+}
+
+.lightsaber {
+	position: relative;
+}
+
+//barre de chargement//
+
+.btn-charger{
+    margin: auto;
+    cursor: pointer;
+    background-color: rgb(206, 216, 245);
+    padding: 30px;
+    width: 100px;
+    border-radius: 50px;
+    font-weight: bold;
+    color: rgb(103, 156, 216);
+    &:active {
+        & > .progress{
+            &__bar {
+                animation: progress-bar 1000ms;
+            }
+        }
+    }
+}
+@keyframes progress-bar {
     0% {
         transform: scaleX(0);
+         opacity: .1;
     }
     17% {
         transform: scaleX(.18);
@@ -32,7 +514,7 @@ body{
     46% {
         transform: scaleX(.81);
     }
-    85%,100% {
+    85% {
         opacity: 1;
     }
     100% {
@@ -40,20 +522,277 @@ body{
     }
 }
 
-.progress{
-    margin: auto;
-    border:rgb(69, 74, 146) solid;
-    width: 800px;
-    height: 50px;
+.progress {
     padding: 5px;
-
-    &__bar{
-        opacity: 0;
-        transform-origin: left;
-    height: 100%;
-    background-color: aquamarine;
+    margin: 10px;
+    border:rgb(69, 74, 146) solid;
+    &__bar  {
+    opacity: 0;
+    height: 20px; 
+    background-color: rgb(206, 216, 245);
+    color: rgb(103, 156, 216);
+    transform-origin: left;
     transform: scaleX(0);
-    transition: transform 1000ms cubic-bezier(.32,0,.07,1);
+    transition: transform 1000ms cubic-bezier(.32, 0, .07, 1);
+}
+}
+
+
+.btn-carre2{
+    cursor:pointer;
+        &:active + .boite {
+            transform: scale(1) rotate(0deg);
+        span {
+            transform: translateY(0);
+            }
+        }
+}
+
+
+.boite {
+    background: rgb(161, 216, 248);
+    width: 100px;
+    height: 100px;
+    
+    overflow: hidden;
+    transform: scale(.1) rotate(-90deg);
+    transition: transform 330ms ease-in-out;
+
+span {
+    transform: translateY(250%);
+    transition: transform 280ms ease-out 50ms;
+    display: block;
+}
+
+}
+.skew{
+    height: 90px;
+    width: 50px;
+    background-color: rgb(222, 165, 248);
+}
+
+.btn-carre4 {
+    cursor: pointer;
+    &:active + .boxes4{
+        transform: skew(45deg);
+        transform: perspective(300px) rotateX(45deg);
+        }
+}
+
+.box__base--tranxScale{
+   background: rgb(250, 121, 70);
+    width: 100px;
+    height: 100px; 
+}
+
+.box__base--scaleTranx{
+    background: rgb(192, 112, 230);
+     width: 100px;
+     height: 100px; 
+ }
+
+
+.btn-carre3 {
+    &:active + .boite-3 {
+        & > .box__base--tranxScale {
+        transform: translateX(200%) scale(2);
+    }
+    & > .box__base--scaleTranx {
+        transform: scale(2) translateX(200%);
+        }
+    }
+}
+.box {
+    &__base {
+        &--tranxScale {
+            background-color: #15dea5;
+            transition: transform 330ms ease-in-out;
+        }
+        &--scaleTranx {
+            background-color: pink;
+            transition: transform 330ms ease-in-out;
+        }
     }
 }
 
+
+.btn-carre{
+    cursor: pointer;
+    &:active+ .boxes {
+        & > .boxes--rotDegrees {
+            transform: rotate(0deg);
+        }
+        & >.boxes--rotTurns {
+            transform: rotate(0turn);
+        }
+    }
+}
+
+.boxes--rotDegrees{
+    background: green;
+    width: 100px;
+    height: 100px;
+}
+
+.boxes--rotTurns{
+    background: pink;
+    width: 100px;
+    height: 100px;
+}
+
+.boxes {
+    display: flex;
+    &--rotDegrees {
+        transform: rotate(-360deg);
+        transition: transform 500ms ease-in-out;
+    }
+
+    &--rotTurns {
+        transform: rotate(-1turn);
+        transition: transform 500ms ease-in-out;
+    }
+}
+
+.btn-transform {
+    margin: auto;
+    width: 0;
+    height: 0;
+    border: solid transparent;
+    border-radius: 50px;
+    border-right-width: 100px;
+    border-left-width: 100px;
+    border-bottom: 100px solid rgb(245, 110, 121);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    cursor: pointer;
+    
+    &:hover + .maison{
+        transform: scale(0.5, 1);
+        
+        span{
+            transform: translateY(0);
+        }
+
+    }
+}
+.maison {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    background:rgb(245, 220, 200);
+    transform: scale(0.1);
+    transition: transform 330ms ease-in-out;
+    overflow: hidden;
+    transform: rotate(-90deg);
+    transform: translate(0px, 150px);
+    span{
+        display: block;
+        transform: translateY(250%);
+        transition: transform 280ms ease-out 50ms;
+    }
+}
+
+.herbe{
+    width: auto;
+    background-color: rgb(145, 211, 186);
+    height: 20px;
+}
+
+.terre{
+    width: auto;
+    background-color: rgb(175, 132, 108);
+    height: 200px;
+}
+
+
+.btn {
+    border: 4px solid $cd-btn-end;
+    font-family: 'Montserrat';
+    background: $cd-btn-start;
+    color: $cd-txt;
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 1.85rem 3rem;
+    border-radius: 10rem;
+    width: 500px;
+    margin: auto;
+    transform: scale(1);
+    transition: transform 0.9s;
+    background-color: 0.2s;
+
+    &:hover {
+        transform: scale(1.15);
+        background-color: $cd-btn-end;
+    }
+}
+
+
+
+.form {
+    &__group {
+        & input {
+            border: 2px solid &cd-box;
+            border-radius: 100rem;
+            color: $cd-txt;
+            font-family: 'Montserrat';
+            font-size: 2.5rem;
+            outline: none;
+            padding: .2rem 0.5rem;
+            width: 500px;
+
+            &:active, &:focus {
+                border: 2px solid $cd-txt;
+            }
+            &:not(:focus):invalid {
+                color: white;
+                border: 2px solid $cd-danger;
+                background: $cd-danger;
+                animation: headshake 100ms cubic-bezier(.4,.1,.6,.9);
+                animation-iteration-count: 2;
+            }
+        }
+    }
+}
+
+
+$shake-intensity: 1%;
+
+@keyframes headshake {
+   // A 25% de l'animation
+    25% {
+        // entièrement à droite
+        transform: translateX($shake-intensity);
+    }
+    75% {
+        // entièrement à gauche
+        transform: translateX($shake-intensity* -1);
+    }
+}
+
+.btn-2 {
+    margin: auto;
+    width: 200px;
+    font-family: 'Montserrat';
+    color: rgb(69, 74, 146);
+    border: 20px;
+    border-style: inset;
+    background: rgb(202, 206, 240);
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 1.85rem 3rem;
+    border-radius: 150px;
+        &:active + .ball{
+            transform: scale(100);
+        }
+}
+
+.ball {
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    background: rgb(252, 236, 18);
+    margin-bottom: 1rem;
+    border-radius: 150px * 0.5;
+    transform: scale(0);
+    transition: transform 5s;
+}
